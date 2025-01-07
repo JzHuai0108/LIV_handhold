@@ -4,27 +4,29 @@
 #include "sys.h"
 #include "usart.h"
 #include "timer.h"
-//»ÒÉ« SWIO  7 ×ó4
-//°×É« SWCLK 9 ×ó5
-//ºÚÉ« GND ÓÒ 2
+//ï¿½ï¿½É« SWIO  7 ï¿½ï¿½4
+//ï¿½ï¿½É« SWCLK 9 ï¿½ï¿½5
+//ï¿½ï¿½É« GND ï¿½ï¿½ 2
 
 
 extern vu16 var_Exp;
 int main(void)
 {
 
-	delay_init();	    	 //ÑÓÊ±º¯Êý³õÊ¼»¯	  
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //ÉèÖÃNVICÖÐ¶Ï·Ö×é2:2Î»ÇÀÕ¼ÓÅÏÈ¼¶£¬2Î»ÏìÓ¦ÓÅÏÈ¼¶
-	//uart_init(115200);	 //´®¿Ú³õÊ¼»¯Îª115200
+	delay_init();	    	 //ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½	  
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //ï¿½ï¿½ï¿½ï¿½NVICï¿½Ð¶Ï·ï¿½ï¿½ï¿½2:2Î»ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½2Î»ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
+	//uart_init(115200);	 //ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½Îª115200
 	uart_init(9600);
- 	LED_Init();			     //LED¶Ë¿Ú³õÊ¼»¯
+ 	LED_Init();			     //LEDï¿½Ë¿Ú³ï¿½Ê¼ï¿½ï¿½
 	//1000 ms 50 
-	TIM2_PWM_Init(999,7199); // 10 Hz    pin_A1       
+	TIM2_PWM_Init(999,7199); // 10 Hz    pin_A1 TIM2 CH2
 
- 	TIM3_PWM_Init(9999,7199);	 // 1 Hz  pin_B5
+	TIM3_PWM_Init(9999,7199);	 // 1 Hz  pin_B5 TIM3 CH2
 
+	TIM4_PWM_Init(399,7199); // 25 Hz    pin_B7 TIM4 CH2
 
-	
+	TIM1_PWM_Init(99,7199); // 100 Hz    pin_A10 TIM1 CH3
+
 	while(1)
 	{
 		
