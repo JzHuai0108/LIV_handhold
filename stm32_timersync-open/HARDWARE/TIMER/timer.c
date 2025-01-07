@@ -90,7 +90,58 @@ char value_2[100]="";
 char value_time[10]="";
 
 char test[100]="$GPRMC,004015,A,2812.0498,N,11313.1361,E,0.0,180.0,150122,3.9,W,A*";
-void TIM3_IRQHandler(void)   //TIM3�ж�
+
+void TIM3_IRQHandler(void)
+{
+//		uint32_t cnt3 = TIM3->CNT;
+//		uint32_t arr3 = TIM3->ARR;
+//		uint32_t cnt2 = TIM2->CNT;
+//		uint32_t arr2 = TIM2->ARR;
+//		uint32_t cnt1 = TIM1->CNT;
+//		uint32_t arr1 = TIM1->ARR;
+//		uint32_t cnt4 = TIM4->CNT;
+//		uint32_t arr4 = TIM4->ARR;
+		if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
+		{
+				TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+				LED1=!LED1;
+
+//				printf("Interrupt: TIM1 CNT = %lu, ARR = %lu, TIM2 CNT = %lu, ARR = %lu, TIM3 CNT = %lu, ARR = %lu, TIM4 CNT = %lu, ARR = %lu\n",
+//							 cnt1, arr1, cnt2, arr2, cnt3, arr3, cnt4, arr4);
+
+				PCout(13)=0;
+		}
+		
+		//************************************* add *********************************************
+		//UTCtime format: hhmmss
+		
+    if(ss<59){
+				ss++;
+		}else{
+			  ss=0;
+			 if(mm<59){
+				 mm++;
+			 }else{
+				 mm=0;
+				 if(hh<23){
+					 hh++;
+				 }else{
+					 hh=0;
+				 }
+			 }
+		}
+		
+    sprintf(value_2, "%s%02d%02d%02d%s", gprmcStr, hh, mm, ss, ".00,A,2237.496474,N,11356.089515,E,0.0,225.5,230520,2.3,W,A*");
+		strcpy(value_1,value_2);
+	  chckNum =checkNum(value_1);
+	  sprintf(chckNumChar, "%02X", chckNum);
+		printf("%s", value_2);
+    printf("%s\r\n", chckNumChar);
+
+	  //**********************************************************************************
+}
+
+void TIM3_IRQHandler_old(void)   //TIM3�ж�
 {
 //		uint32_t cnt3 = TIM3->CNT;
 //		uint32_t arr3 = TIM3->ARR;

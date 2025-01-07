@@ -1,34 +1,35 @@
 #include "led.h"
-#include "delay.h"
-#include "key.h"
-#include "sys.h"
 #include "usart.h"
-#include "timer.h"
-//��ɫ SWIO  7 ��4
-//��ɫ SWCLK 9 ��5
-//��ɫ GND �� 2
+#include "sync_timer.h"
 
-
-extern vu16 var_Exp;
 int main(void)
 {
-
-	delay_init();	    	 //��ʱ������ʼ��	  
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //����NVIC�жϷ���2:2λ��ռ���ȼ���2λ��Ӧ���ȼ�
-	//uart_init(115200);	 //���ڳ�ʼ��Ϊ115200
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	uart_init(9600);
- 	LED_Init();			     //LED�˿ڳ�ʼ��
-	//1000 ms 50 
-	TIM2_PWM_Init(999,7199); // 10 Hz    pin_A1 TIM2 CH2
+	LED_Init();
 
-	TIM3_PWM_Init(9999,7199);	 // 1 Hz  pin_B5 TIM3 CH2
+    // Initialize GPIO pins for PWM output
+    GPIO_Init_PWM();
 
-	TIM4_PWM_Init(399,7199); // 25 Hz    pin_B7 TIM4 CH2
+    TIM1_Master_Init(719, 999, 360); // 100 Hz    pin_A8 TIM1 CH1
+    TIM2_Slave_Init(7199, 999, 3600); // 10 Hz    pin_A1 TIM2 CH2
+    TIM3_Slave_Init(7199, 9999, 3600); // 1 Hz  remap to pin_B5 TIM3 CH2
+    TIM4_Slave_Init(2879, 999, 1440); // 25 Hz    pin_B7 TIM4 CH2
 
-	TIM1_PWM_Init(99,7199); // 100 Hz    pin_A10 TIM1 CH3
+    // Reset all timers
+    TIM1->EGR = TIM_EGR_UG;  // Generate update event for TIM1
+    TIM2->EGR = TIM_EGR_UG;  // Generate update event for TIM2
+    TIM3->EGR = TIM_EGR_UG;  // Generate update event for TIM3
+    TIM4->EGR = TIM_EGR_UG;  // Generate update event for TIM4
 
-	while(1)
-	{
-		
-	}
+    // Start timers
+    TIM1->CR1 |= TIM_CR1_CEN;  // Enable TIM1 (master)
+    TIM2->CR1 |= TIM_CR1_CEN;  // Enable TIM2 (slave)
+    TIM3->CR1 |= TIM_CR1_CEN;  // Enable TIM3 (slave)
+    TIM4->CR1 |= TIM_CR1_CEN;  // Enable TIM4 (slave)
+
+    while (1)
+    {
+        // Main loop
+    }
 }
