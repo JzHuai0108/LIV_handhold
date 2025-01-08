@@ -11,10 +11,10 @@ int main(void)
     // Initialize GPIO pins for PWM output
     GPIO_Init_PWM();
 
-    TIM1_Master_Init(719, 999, 360); // 100 Hz    pin_A8 TIM1 CH1
-    TIM2_Slave_Init(7199, 999, 3600); // 10 Hz    pin_A1 TIM2 CH2
+    TIM1_Master_Init(359, 999, 180); // 200 Hz    pin_A8 TIM1 CH1
+    TIM2_Slave_Init(49999, 143, 2); // 10 Hz    pin_A1 TIM2 CH2
     TIM3_Slave_Init(7199, 9999, 3600); // 1 Hz  remap to pin_B5 TIM3 CH2
-    TIM4_Slave_Init(2879, 999, 1440); // 25 Hz    pin_B7 TIM4 CH2
+    TIM4_Slave_Init(3599, 999, 360); // 20 Hz    pin_B7 TIM4 CH2
 
     // Reset all timers
     TIM1->EGR = TIM_EGR_UG;  // Generate update event for TIM1
