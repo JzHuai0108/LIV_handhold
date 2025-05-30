@@ -5,7 +5,7 @@
 int main(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	uart_init(9600);
+	uart_init(9600); // PA9
 	LED_Init();
 
     // Initialize GPIO pins for PWM output
@@ -13,7 +13,7 @@ int main(void)
 
     TIM1_Master_Init(359, 999, 180); // 200 Hz    pin_A8 TIM1 CH1
     TIM2_Slave_Init(49999, 143, 2); // 10 Hz    pin_A1 TIM2 CH2
-    TIM3_Slave_Init(7199, 9999, 3600); // 1 Hz  remap to pin_B5 TIM3 CH2
+    TIM3_Slave_Init(7199, 9999, 360); // 1 Hz  remap to pin_B5 TIM3 CH2
     TIM4_Slave_Init(3599, 999, 360); // 20 Hz    pin_B7 TIM4 CH2
 
     // Reset all timers
